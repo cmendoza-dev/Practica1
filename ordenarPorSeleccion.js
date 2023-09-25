@@ -1,5 +1,6 @@
 // Función para ordenar por selección
 function ordenarPorSeleccion(numeros) {
+    // Tu código de ordenamiento por selección aquí
     for (let i = 0; i < numeros.length - 1; i++) {
         let minIndex = i;
         for (let j = i + 1; j < numeros.length; j++) {

@@ -1,5 +1,6 @@
 // Función para ordenar por burbuja
 function ordenarPorBurbuja(numeros) {
+    // Tu código de ordenamiento por burbuja aquí
     let n = numeros.length;
     for (let i = 0; i < n - 1; i++) {
         for (let j = 0; j < n - i - 1; j++) {
