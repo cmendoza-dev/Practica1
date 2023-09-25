@@ -6,52 +6,63 @@ const rl = readline.createInterface({
     output: process.stdout  // Escribir en la salida estándar (consola)
 });
 
-//  funciona iterando sobre la lista, encuentra el elemento más pequeño y lo mueve al inicio de la lista.
+// Función para ordenar por selección
 function ordenarPorSeleccion(numeros) {
-    // Iterar a través de toda la lista (excepto el último elemento)
     for (let i = 0; i < numeros.length - 1; i++) {
-        // Suponemos que el elemento actual es el mínimo
         let minIndex = i;
-
-        // Buscamos el elemento más pequeño a partir del elemento actual
         for (let j = i + 1; j < numeros.length; j++) {
             if (numeros[j] < numeros[minIndex]) {
-                // Si encontramos un elemento más pequeño, actualizamos minIndex
                 minIndex = j;
             }
         }
-
-        // Si minIndex no es igual a i, significa que encontramos un elemento más pequeño
-        // y lo intercambiamos con el elemento en la posición i
         if (minIndex !== i) {
             [numeros[i], numeros[minIndex]] = [numeros[minIndex], numeros[i]];
         }
     }
-    return numeros; // Devolvemos la lista ordenada
+    return numeros;
 }
 
-
-// funciona comparando pares de elementos adyacentes y los intercambia si están en el orden incorrecto
+// Función para ordenar por burbuja
 function ordenarPorBurbuja(numeros) {
-    let n = numeros.length; // Almacenamos la longitud del arreglo en la variable n
-
-    // Primer bucle, itera a través de todos los elementos del arreglo excepto el último
+    let n = numeros.length;
     for (let i = 0; i < n - 1; i++) {
-
-        // Segundo bucle, compara los pares de elementos adyacentes
         for (let j = 0; j < n - i - 1; j++) {
-
-            // Si el elemento actual es mayor que el siguiente
             if (numeros[j] > numeros[j + 1]) {
-                // Intercambiamos los elementos utilizando la desestructuración de arreglos
                 [numeros[j], numeros[j + 1]] = [numeros[j + 1], numeros[j]];
             }
         }
     }
-
-    return numeros; // Devolvemos el arreglo ordenado
+    return numeros;
 }
 
+// Función de búsqueda lineal
+function buscarLineal(numeros, numeroBuscado) {
+    for (let i = 0; i < numeros.length; i++) {
+        if (numeros[i] === numeroBuscado) {
+            return `El número ${numeroBuscado} se encuentra en la posición ${i}`;
+        }
+    }
+    return `El número ${numeroBuscado} no se encontró en la lista.`;
+}
+
+// Función de búsqueda binaria (requiere que la lista esté ordenada)
+function buscarBinaria(numeros, numeroBuscado) {
+    let inicio = 0;
+    let fin = numeros.length - 1;
+
+    while (inicio <= fin) {
+        let medio = Math.floor((inicio + fin) / 2);
+        if (numeros[medio] === numeroBuscado) {
+            return `El número ${numeroBuscado} se encuentra en la posición ${medio}`;
+        } else if (numeros[medio] < numeroBuscado) {
+            inicio = medio + 1;
+        } else {
+            fin = medio - 1;
+        }
+    }
+
+    return `El número ${numeroBuscado} no se encontró en la lista.`;
+}
 
 // Función principal para obtener números y opciones de ordenamiento
 function obtenerNumeros() {
@@ -81,7 +92,18 @@ function obtenerNumeros() {
                 console.log(`Resultado: ${resultado.join(', ')}`);
             }
 
-            obtenerNumeros(); // Llamar de nuevo a la función para continuar obteniendo números y opciones
+            // Después de ordenar, permite al usuario buscar un número
+            rl.question('Ingresa un número para buscar: ', (numeroBuscado) => {
+                const num = Number(numeroBuscado);
+                if (!isNaN(num)) {
+                    // Puedes llamar a la función de búsqueda aquí
+                    const resultadoBusqueda = buscarLineal(resultado, num);
+                    console.log(resultadoBusqueda);
+                } else {
+                    console.error('Entrada no válida para búsqueda.');
+                }
+                rl.close();
+            });
         });
     });
 }
